@@ -1,0 +1,39 @@
+<h1 class="heading">Create Posts</h1>
+
+<form action="/admin/posts/update/{{post._id}}?_method=PUT" method="post" enctype="multipart/form-data">
+
+    <div class="form-group">
+        <label for="title">Title</label>
+        <input type="text" name="title" id="title" class="form-control" value="{{ post.title }}">
+    </div>
+
+    <div class="form-group">
+        <label for="file" class="control-label">Image</label>
+        <input type="file" name="file" class="form-control">
+    </div>
+
+    <div class="form-group">
+        <label for="status">Status</label>
+        <select name="status" id="status" class="form-control">
+            {{#select post.status}}
+            <option value="public">Public</option>
+            <option value="private">Private</option>
+            <option value="draft">Draft</option>
+            {{/select}}
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="allowComments" class="form-check-label">
+            <input type="checkbox" name="allowComments" id="allowComments" {{#if post.allowComments}} checked="checked" {{/if}}>
+            Allow Comments 
+        </label>
+    </div>
+
+    <div class="form-group">
+        <label for="body">Description</label>
+        <textarea name="body" id="body" cols="30" rows="10" style="resize: none" class="form-control">{{ post.body }}</textarea>
+    </div>
+    
+    <button type="submit" class="btn btn-primary" class="form-control">Save</button>
+</form> 

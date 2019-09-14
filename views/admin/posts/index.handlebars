@@ -1,0 +1,32 @@
+<h1>Posts</h1>
+{{> admin/messages }}
+<table class="table table-striped">
+    <thead>
+        <th>Image</th>
+        <th>Title</th>
+        <th>Status</th>
+        <th>Allow Comments</th>
+        <th></th>
+        <th></th>
+    </thead>
+    <tbody>
+        {{#each posts}}
+        <tr>
+            <td>
+                <img src="/uploads/{{file}}" alt="{{title}}" class="img-responsive" width="50px">
+            </td>
+            <td>{{ title }}</td>
+            <td>{{ status }}</td>
+            <td>{{ allowComments }}</td>
+            <td>
+                <a href="/admin/posts/edit/{{_id}}" class="btn btn-info">Edit</a>
+            </td>
+            <td>
+                <form action="/admin/posts/{{id}}?_method=DELETE" method="POST">
+                    <button type="submit" class="btn btn-danger" return="confirm('Are you sure?')">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
