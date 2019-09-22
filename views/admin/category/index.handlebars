@@ -29,7 +29,7 @@
                     <td>{{ name }}</td>
                     <td>
                         <a href="/admin/categories/{{_id}}" class="btn btn-primary">Edit</a>
-                        <form action="/admin/categories/delete/{{_id}}?_method=DELETE" method="POST">
+                        <form action="/admin/categories/{{_id}}?_method=DELETE" method="POST" style="display: inline">
                             <button type="submit" class="btn btn-danger">Delete</button>
                         </form>
                     </td>

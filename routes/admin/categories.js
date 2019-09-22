@@ -64,8 +64,21 @@ router.put('/update/:id', (req, res) => {
     res.redirect('/admin/categories')
 })
 
-router.delete(':id', (req, res) => {
-    console.log()
+router.delete('/:id', (req, res) => {
+    Category.findById({_id: req.param('id')})
+    .then(category => {
+        category.remove()
+        .then(doc => {
+            req.flash('success_message', 'Category deleted successfully')
+        })
+        .catch(error => {
+            req.flash('error_message', 'Error: '+error)
+        })
+    })
+    .catch(error => {
+        req.flash('error_message', 'Error: '+error)
+    })
+    res.redirect('/admin/categories')
 })
 
 
