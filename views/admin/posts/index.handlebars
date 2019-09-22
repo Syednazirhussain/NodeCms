@@ -6,6 +6,7 @@
         <th>Title</th>
         <th>Status</th>
         <th>Allow Comments</th>
+        <th>Date</th>
         <th></th>
         <th></th>
     </thead>
@@ -18,6 +19,7 @@
             <td>{{ title }}</td>
             <td>{{ status }}</td>
             <td>{{ allowComments }}</td>
+            <td>{{ formatDate date 'DD-MM-YYYY' }}</td>
             <td>
                 <a href="/admin/posts/edit/{{_id}}" class="btn btn-info">Edit</a>
             </td>

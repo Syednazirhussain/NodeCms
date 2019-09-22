@@ -13,8 +13,7 @@ mongoose.connect('mongodb://localhost:27017/cms').then((db) => {
     console.log('MongoDB Conenected!');
 }).catch(error => { console.log('Could not connect :'+ error) })
 
-const { select } = require('./helpers/handlebars-helper');
-
+const { select, formatDate, empty } = require('./helpers/handlebars-helper');
 const app = express();
 
 app.use(express.static(path.join(__dirname, 'public')))
@@ -28,7 +27,6 @@ app.use(session({
     saveUninitialized: true,
 }))
 app.use(flash())
-
 app.use((req, res, next) => {
     res.locals.success_message = req.flash('success_message')
     res.locals.error_message = req.flash('error_message')
@@ -36,7 +34,14 @@ app.use((req, res, next) => {
 })
 
 
-app.engine('handlebars', exphbs({ defaultLayout: 'home', helpers: {select: select}}));
+app.engine('handlebars', exphbs({ 
+    defaultLayout: 'home', 
+    helpers: {
+        empty: empty,
+        select: select, 
+        formatDate: formatDate
+    }
+}));
 app.set('view engine', 'handlebars');
 app.listen(4500, (error) => {
     console.log('Server is running at port 4500')
@@ -46,8 +51,10 @@ app.listen(4500, (error) => {
 const home = require('./routes/home/index')
 const admin = require('./routes/admin/index')
 const posts = require('./routes/admin/posts')
+const categories = require('./routes/admin/categories')
 
 app.use('/', home)
 app.use('/admin', admin)
 app.use('/admin/posts', posts)
+app.use('/admin/categories', categories)
 

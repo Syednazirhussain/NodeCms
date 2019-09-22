@@ -1,0 +1,42 @@
+<div class="container">
+    <div class="row">
+        <div class="well">
+            {{> admin/messages }}
+        </div>
+        <div class="panel">
+            <div class="panel-title">Create Category</div>
+            <div class="panel-body">
+                <form action="/admin/categories/store" method="POST">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" name="name" class="form-control">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save</button>                    
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        {{#if categories}}
+        <table class="table">
+            <thead>
+                <th>Name</th>
+                <th></th>
+            </thead>
+            <tbody>
+                {{#each categories}}
+                <tr>
+                    <td>{{ name }}</td>
+                    <td>
+                        <a href="/admin/categories/{{_id}}" class="btn btn-primary">Edit</a>
+                        <form action="/admin/categories/delete/{{_id}}?_method=DELETE" method="POST">
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+        {{/if}}
+    </div>
+</div>

@@ -4,7 +4,7 @@ const Post = require('../../models/Posts')
 const fs = require('fs')
 const { isEmpty, uploadDir } = require('./../../helpers/helper')
  
-router.all('/*', (req, res, next) => {
+router.all('/admin', (req, res, next) => {
 
     res.app.locals.layout = 'admin';
     next();

@@ -5,10 +5,14 @@
         <link rel="stylesheet" href="/css/bootstrap.min.css">
     </head>
     <body>
-        {{> home/home-navbar }}
+        <div class="row">
+            {{> home/home-navbar }}
+        </div>
         <div class="container">
             {{{ body }}}
         </div>
-        {{> home/footer }}
+        <div class="row">
+            {{> home/footer }}
+        </div>
     </body>
 </html>

@@ -1,3 +1,24 @@
-<div class="alert alert-info">
-    <p class="text-center">Site Landing page</p>
+<div class="row">
+    <div class="col-md-8">
+        {{#each posts}}
+        <div class="card">
+            <div class="card-img">
+                <img src="/uploads/{{file}}" alt="{{title}}" class="img-responsive">
+            </div>
+            <div class="card-body">
+                <div class="card-title">{{ title }}</div>
+                <div class="card-text">{{ body }}</div>
+            </div>
+            <div class="card-footer text-muted">
+                <p>
+                    Created at {{ formatDate date 'MM-DD-YYYY'}}
+                </p>
+                <a href="/post/{{_id}}" class="btn btn-primary">Read me&nbsp;&rarr;</a>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+    <div class="col-md-4">
+
+    </div>
 </div>
