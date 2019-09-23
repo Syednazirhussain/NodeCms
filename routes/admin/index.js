@@ -4,7 +4,7 @@ const faker = require('faker');
 const Post = require('../../models/Posts');
 
 router.all('/*', (req, res, next) => {
-    req.app.locals.layout = 'admin'
+    res.locals.layout = 'admin'
     next()
 })
 

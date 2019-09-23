@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Post = require('../../models/Posts')
+const Category = require('../../models/Category')
 const fs = require('fs')
 const { isEmpty, uploadDir } = require('./../../helpers/helper')
  
@@ -11,7 +12,9 @@ router.all('/admin', (req, res, next) => {
 });
 
 router.get('/', (req, res) => {
-    Post.find({}).then(posts => {
+    Post.find({})
+    .populate('category')
+    .then(posts => {
         const data = {
             posts: posts
         }
@@ -20,20 +23,31 @@ router.get('/', (req, res) => {
 })
 
 router.get('/create', (req, res) => {
-    res.render('admin/posts/create')
+
+    Category.find({})
+    .then(categories => {
+        let jsObj = {
+            categories: categories
+        }
+        res.render('admin/posts/create', jsObj)
+    }).catch(error => {
+        req.flash('error_message', 'Error: '+ JSON.stringify(error))
+        res.render('admin/posts/create')
+    })
 })
 
 router.post('/store', (req, res) => {
+
     let allowComment = false
     if (!req.body.allowComments) {
         allowComment = true
     }
-
     const newPost = new Post();
     newPost.title = req.body.title
     newPost.status = req.body.status
     newPost.allowComments = allowComment
     newPost.body = req.body.body
+    newPost.category = req.body.category
     if (!isEmpty(req.files)) {
         let file = req.files.file;
         newPost.file = Date.now() +'-'+ file.name;

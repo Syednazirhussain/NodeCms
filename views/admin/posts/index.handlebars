@@ -4,6 +4,7 @@
     <thead>
         <th>Image</th>
         <th>Title</th>
+        <th>Category</th>
         <th>Status</th>
         <th>Allow Comments</th>
         <th>Date</th>
@@ -17,6 +18,7 @@
                 <img src="/uploads/{{file}}" alt="{{title}}" class="img-responsive" width="50px">
             </td>
             <td>{{ title }}</td>
+            <td>{{ category.name }}</td>
             <td>{{ status }}</td>
             <td>{{ allowComments }}</td>
             <td>{{ formatDate date 'DD-MM-YYYY' }}</td>
