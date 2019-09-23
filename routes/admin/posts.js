@@ -65,10 +65,25 @@ router.post('/store', (req, res) => {
 })
 
 router.get('/edit/:id', (req, res) => {
-    Post.findOne({_id: req.params.id}).then(post => {
-        return res.render('admin/posts/edit', {post: post}) 
+    Post.findOne({_id: req.params.id})
+    // .populate('category')
+    .then(post => {
+        Category.find({})
+        .then(categories => {
+            let jsObj = {
+                post: post,
+                categories: categories
+            }
+            console.log(jsObj)
+            return res.render('admin/posts/edit', jsObj)
+        })
+        .catch(error => {
+            req.flash('error_message', 'Error: '+ JSON.stringify(error))
+            return res.render('admin/posts/edit', {post: post})
+        }) 
     }).catch(error => {
-        console.log(error)
+        req.flash('error_message', 'Error: '+ JSON.stringify(error))
+        return res.render('admin/posts/edit')
     })
 })
 
