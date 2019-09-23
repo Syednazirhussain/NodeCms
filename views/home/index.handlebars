@@ -21,6 +21,17 @@
         {{/each}}
     </div>
     <div class="col-md-4">
-
+        <div class="panel">
+            <div class="panel-title">Category List</div>
+            <div class="panel-body">
+                <ul class="list-unstyled">
+                    {{#each categories}}
+                        <li class="list-item">
+                            <a href="javascript:void(0);">{{ name }}</a>
+                        </li>
+                    {{/each}}
+                </ul>  
+            </div>
+        </div>
     </div>
 </div>

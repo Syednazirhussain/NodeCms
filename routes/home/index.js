@@ -1,13 +1,20 @@
 const express = require('express')
 const router = express.Router();
 const Post = require('./../../models/Posts')
+const Category = require('./../../models/Category')
 
 router.get('/', (req, res) => {
-
     Post.find().then(posts => {
-
-        req.flash('success_message', 'Post retrive successfully')
-        res.render('home/index', {posts: posts})
+        Category.find({})
+        .then(categories => {
+            let jsObj = {
+                posts: posts,
+                categories: categories,
+            }
+            res.render('home/index', jsObj)
+        }).catch(error => {
+            req.flash('error_message', 'Error: '+error)
+        })
     }).catch(error => {
         req.flash('error_message', JSON.stringify(error))
         res.render('home/index');
