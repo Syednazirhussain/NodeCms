@@ -66,7 +66,6 @@ router.post('/store', (req, res) => {
 
 router.get('/edit/:id', (req, res) => {
     Post.findOne({_id: req.params.id})
-    // .populate('category')
     .then(post => {
         Category.find({})
         .then(categories => {
@@ -74,7 +73,6 @@ router.get('/edit/:id', (req, res) => {
                 post: post,
                 categories: categories
             }
-            console.log(jsObj)
             return res.render('admin/posts/edit', jsObj)
         })
         .catch(error => {
@@ -100,6 +98,7 @@ router.put('/update/:id', (req, res) => {
         post.status = req.body.status;
         post.allowComments = allowComments;
         post.body = req.body.body;
+        post.category = req.body.category;
         if (!isEmpty(req.files)) {
             fs.unlink(uploadDir + post.file, (err) => {
                 let file = req.files.file;

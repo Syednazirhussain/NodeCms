@@ -13,7 +13,7 @@ mongoose.connect('mongodb://localhost:27017/cms').then((db) => {
     console.log('MongoDB Conenected!');
 }).catch(error => { console.log('Could not connect :'+ error) })
 
-const { select, formatDate, empty } = require('./helpers/handlebars-helper');
+const { select, formatDate, empty, optionsList } = require('./helpers/handlebars-helper');
 const app = express();
 
 app.use(express.static(path.join(__dirname, 'public')))
@@ -39,7 +39,8 @@ app.engine('handlebars', exphbs({
     helpers: {
         empty: empty,
         select: select, 
-        formatDate: formatDate
+        optionsList: optionsList, 
+        formatDate: formatDate,
     }
 }));
 app.set('view engine', 'handlebars');
