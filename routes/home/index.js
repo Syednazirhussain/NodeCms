@@ -45,7 +45,18 @@ router.get('/login', (req, res) => {
 })
 
 router.post('/login', (req, res) => {
-    console.log(req.body)
+
+    User.findOne({email: req.body.email})
+    .then(user => {
+        console.log(req.body)
+        console.log(user)
+        bcrypt.compare(req.body.password, user.password, function(err, res) {
+            console.log(res)
+        })
+    })
+    .catch(error => {
+        req.flash('error_message', 'Error: '+ JSON.stringify(error))
+    })
 })
 
 router.get('/register', (req, res) => {
