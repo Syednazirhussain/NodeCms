@@ -5,6 +5,12 @@
 {{/if}}
 {{#if error_message}}
     <div class="alert alert-danger">
-        {{error_message}}
+        <ul class="list-unstyled">
+        {{#each error_message}}
+            <li class="list-item">{{this}}</li>
+        {{else}}
+            <li class="list-item">{{error_message}}</li>
+        {{/each}}
+        </ul>
     </div>
 {{/if}}

@@ -52,39 +52,57 @@ router.get('/register', (req, res) => {
 router.post('/register', (req, res) => {
 
 
-    User.findOne({email: req.body.email})
-    .then(user => {
-        if (!user) {
-            bcrypt.genSalt(10, (error, salt) => {
-                bcrypt.hash(req.body.password, salt, (error, hash) => {
-                    const user = new User({
-                        firstName: req.body.first_name,
-                        lastName: req.body.last_name,
-                        email: req.body.email,
-                        password: hash
-                    })
-                    user.validate(error => {
-                        if (error) {
-                            req.flash('error_message', 'Error: '+ JSON.stringify(error))
-                        } else {
-                            user.save()
-                            .then(user => {
-                                req.flash('success_message', 'User register successfully.')
-                            })
-                            .catch(error => {
-                                console.log('Error: '+ JSON.stringify(error))
-                            })
-                        }
+    let errors = []
+    if (req.body.first_name == '') {
+        errors.push('please enter first name')
+    }
+    if (req.body.last_name == '') {
+        errors.push('please enter last name')
+    }
+    if (req.body.email == '') {
+        errors.push('please enter email')
+    }
+    if (req.body.password == '') {
+        errors.push('please enter password')
+    }
+
+    if (Object.keys(errors).length > 0) {
+
+        req.flash('error_message', errors)
+        res.render('home/register', req.body)
+    } else {
+        User.findOne({email: req.body.email})
+        .then(user => {
+            if (!user) {
+                bcrypt.genSalt(10, (error, salt) => {
+                    bcrypt.hash(req.body.password, salt, (error, hash) => {
+                        const user = new User({
+                            firstName: req.body.first_name,
+                            lastName: req.body.last_name,
+                            email: req.body.email,
+                            password: hash
+                        })
+                        user.validate(error => {
+                            if (error) {
+                                req.flash('error_message', 'Error: '+ JSON.stringify(error))
+                            } else {
+                                user.save()
+                                .then(user => {
+                                    req.flash('success_message', 'User register successfully.')
+                                })
+                                .catch(error => {
+                                    req.flash('Error: '+ JSON.stringify(error))
+                                })
+                            }
+                        })
                     })
                 })
-            })
-        } else {
-            req.flash('error_message', 'Email already exists..')
-        }
-
-        res.redirect('/register')
-    })
-
+            } else {
+                req.flash('error_message', 'Email already exists..')
+            }
+            res.redirect('/register')
+        })
+    }
 })
 
 module.exports = router
