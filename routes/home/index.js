@@ -1,4 +1,5 @@
 const express = require('express')
+const bcrypt = require('bcryptjs')
 const router = express.Router();
 const Post = require('./../../models/Posts')
 const Category = require('./../../models/Category')
@@ -50,25 +51,40 @@ router.get('/register', (req, res) => {
 
 router.post('/register', (req, res) => {
 
-    const user = new User({
-        firstName: req.body.first_name,
-        lastName: req.body.last_name,
-        email: req.body.email,
-        password: req.body.password
-    })
-    user.validate(error => {
-        if (error) {
-            console.log('Error '+error)
+
+    User.findOne({email: req.body.email})
+    .then(user => {
+        if (!user) {
+            bcrypt.genSalt(10, (error, salt) => {
+                bcrypt.hash(req.body.password, salt, (error, hash) => {
+                    const user = new User({
+                        firstName: req.body.first_name,
+                        lastName: req.body.last_name,
+                        email: req.body.email,
+                        password: hash
+                    })
+                    user.validate(error => {
+                        if (error) {
+                            req.flash('error_message', 'Error: '+ JSON.stringify(error))
+                        } else {
+                            user.save()
+                            .then(user => {
+                                req.flash('success_message', 'User register successfully.')
+                            })
+                            .catch(error => {
+                                console.log('Error: '+ JSON.stringify(error))
+                            })
+                        }
+                    })
+                })
+            })
+        } else {
+            req.flash('error_message', 'Email already exists..')
         }
-        user.save()
-        .then(user => {
-            req.flash('success_message', 'User register successfully.')
-            res.redirect('/register')
-        })
-        .catch(error => {
-            console.log('Error: '+ JSON.stringify(error))
-        })
+
+        res.redirect('/register')
     })
+
 })
 
 module.exports = router
