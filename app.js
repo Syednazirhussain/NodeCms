@@ -1,12 +1,12 @@
 const path = require('path')
 const express = require('express')
 const mongoose = require('mongoose')
-const bodyParser = require('body-parser')
-const exphbs = require('express-handlebars')
-const methodOverride = require('method-override')
-const fileUpload = require('express-fileupload')
-const session = require('express-session')
 const flash = require('connect-flash')
+const bodyParser = require('body-parser')
+const session = require('express-session')
+const exphbs = require('express-handlebars')
+const fileUpload = require('express-fileupload')
+const methodOverride = require('method-override')
 
 mongoose.Promise = global.Promise 
 mongoose.connect('mongodb://localhost:27017/cms').then((db) => {
