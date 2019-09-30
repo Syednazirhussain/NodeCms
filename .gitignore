@@ -3,4 +3,4 @@ public/uploads/*
 npm-debug.log
 package-lock.json
 test/*.log
-~/.vscode-root/
+**/~/
