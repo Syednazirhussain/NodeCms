@@ -44,10 +44,13 @@ router.get('/login', (req, res) => {
     return res.render('home/login')
 })
 
+router.post('/login', (req, res) => {
+    console.log(req.body)
+})
+
 router.get('/register', (req, res) => {
     return res.render('home/register')
 })
-
 
 router.post('/register', (req, res) => {
 
