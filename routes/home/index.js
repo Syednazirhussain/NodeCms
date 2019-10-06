@@ -1,11 +1,14 @@
 const express = require('express')
-const bcrypt = require('bcryptjs')
 const router = express.Router();
+const bcrypt = require('bcryptjs')
+const passport = require('passport')
+const LocalStrategy = require('passport-local').Strategy
+
+const User = require('./../../models/User')
 const Post = require('./../../models/Posts')
 const Category = require('./../../models/Category')
-const User = require('./../../models/User')
 
-router.get('/', (req, res) => {
+router.get('/', (req, res) => { 
     Post.find().then(posts => {
         Category.find({})
         .then(categories => {
@@ -59,6 +62,52 @@ router.post('/login', (req, res) => {
     })
 })
 
+passport.use(new LocalStrategy({usernameField: 'email'}, (email, password, done) => {
+        User.findOne({ email: email }, function(err, user) {
+            if (err)  throw err
+
+            if (!user) {
+                return done(null, false, { message: 'Incorrect email.' });
+            } else {
+                bcrypt.compare(password, user.password, (error, matched) => {
+                    if (error) return error
+                    if (matched) {
+                        return done(null, user)
+                    } else {
+                        return done(null, false, {message: 'Incorrect password'})
+                    }
+                })
+            }
+        });
+    }
+))
+
+router.get('/logout', (req, res) => {
+
+    req.logOut()
+    res.redirect('/')
+})
+
+passport.serializeUser(function(user, done) {
+    done(null, user.id);
+});
+  
+passport.deserializeUser(function(id, done) {
+    User.findById(id, function(err, user) {
+        done(err, user);
+    });
+});
+
+router.post('/login', (req, res, next) => {
+    
+    passport.authenticate('local', {
+        successRedirect: '/admin',
+        failureRedirect: '/login',
+        failureMessage: true
+    })(req, res, next)
+    
+})
+
 router.get('/register', (req, res) => {
     return res.render('home/register')
 })
@@ -79,7 +128,6 @@ router.post('/register', (req, res) => {
     if (req.body.password == '') {
         errors.push('please enter password')
     }
-
     if (Object.keys(errors).length > 0) {
 
         req.flash('error_message', errors)

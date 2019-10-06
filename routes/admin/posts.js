@@ -4,12 +4,6 @@ const Post = require('../../models/Posts')
 const Category = require('../../models/Category')
 const fs = require('fs')
 const { isEmpty, uploadDir } = require('./../../helpers/helper')
- 
-router.all('/admin', (req, res, next) => {
-
-    res.app.locals.layout = 'admin';
-    next();
-});
 
 router.get('/', (req, res) => {
     Post.find({})

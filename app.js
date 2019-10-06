@@ -1,12 +1,12 @@
 const path = require('path')
 const express = require('express')
 const mongoose = require('mongoose')
+const passport = require('passport')
 const flash = require('connect-flash')
 const bodyParser = require('body-parser')
 const session = require('express-session')
 const exphbs = require('express-handlebars')
 const fileUpload = require('express-fileupload')
-const methodOverride = require('method-override')
 
 mongoose.Promise = global.Promise 
 mongoose.connect('mongodb://localhost:27017/cms').then((db) => {
@@ -27,9 +27,14 @@ app.use(session({
     saveUninitialized: true,
 }))
 app.use(flash())
+// Passport
+app.use(passport.initialize())
+app.use(passport.session())
 app.use((req, res, next) => {
+    res.locals.user = req.user || null
     res.locals.success_message = req.flash('success_message')
     res.locals.error_message = req.flash('error_message')
+    res.locals.error = req.flash('error')
     next()
 })
 
@@ -47,7 +52,6 @@ app.set('view engine', 'handlebars');
 app.listen(4500, (error) => {
     console.log('Server is running at port 4500')
 });
-
 
 const home = require('./routes/home/index')
 const admin = require('./routes/admin/index')
