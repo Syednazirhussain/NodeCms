@@ -47,21 +47,6 @@ router.get('/login', (req, res) => {
     return res.render('home/login')
 })
 
-router.post('/login', (req, res) => {
-
-    User.findOne({email: req.body.email})
-    .then(user => {
-        console.log(req.body)
-        console.log(user)
-        bcrypt.compare(req.body.password, user.password, function(err, res) {
-            console.log(res)
-        })
-    })
-    .catch(error => {
-        req.flash('error_message', 'Error: '+ JSON.stringify(error))
-    })
-})
-
 passport.use(new LocalStrategy({usernameField: 'email'}, (email, password, done) => {
         User.findOne({ email: email }, function(err, user) {
             if (err)  throw err
