@@ -12,6 +12,9 @@ router.get('/', (req, res) => {
         const data = {
             posts: posts
         }
+
+        console.log(data)
+
         res.render('admin/posts/index', data);
     });
 })
@@ -31,6 +34,9 @@ router.get('/create', (req, res) => {
 })
 
 router.post('/store', (req, res) => {
+
+
+    console.log(req.body)
 
     let allowComment = false
     if (!req.body.allowComments) {

@@ -18,7 +18,7 @@
         <select name="category" class="form-control">
             {{#if categories}}
                 {{#each categories}}
-                    <option value="{{id}}">{{ name }}</option>
+                    <option value="{{id}}">{{ this }}</option>
                 {{/each}}
             {{/if}}
         </select>

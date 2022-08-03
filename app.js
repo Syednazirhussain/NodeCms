@@ -10,7 +10,9 @@ const exphbs = require('express-handlebars')
 const fileUpload = require('express-fileupload')
 
 mongoose.Promise = global.Promise 
-mongoose.connect('mongodb://localhost:27017/cms').then((db) => {
+
+// mongoose.connect(mongoConnectionString, {useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect('mongodb://localhost:27017/cms', {useNewUrlParser: true, useUnifiedTopology: true}).then((db) => {
     console.log('MongoDB Conenected!');
 }).catch(error => { console.log('Could not connect :'+ error) })
 

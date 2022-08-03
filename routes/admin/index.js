@@ -27,9 +27,9 @@ router.post('/generate-fake-posts', (req, res) => {
     res.redirect('/admin/posts')
 })
 
-router.get('/', (req, res) => {
+router.get('/', (req, res) => { 
 
-    res.render('admin/index');
+    res.render('admin/index', { 'currentYear': new Date().getFullYear() });
 });
 
 module.exports = router

@@ -11,7 +11,12 @@ router.all('/admin', (req, res, next) => {
 router.get('/', (req, res) => {
     Category.find({})
         .then((categories) => {
-            res.render('admin/category/index', {categories: categories})  
+
+            const data = { categories: categories }
+
+            console.log(data)
+
+            res.render('admin/category/index', data)  
         })
         .catch(error => {
             req.flash('error_message', 'Error: '+JSON.stringify(error))

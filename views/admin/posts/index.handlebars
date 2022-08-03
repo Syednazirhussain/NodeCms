@@ -13,24 +13,26 @@
     </thead>
     <tbody>
         {{#each posts}}
-        <tr>
-            <td>
-                <img src="/uploads/{{file}}" alt="{{title}}" class="img-responsive" width="50px">
-            </td>
-            <td>{{ title }}</td>
-            <td>{{ category.name }}</td>
-            <td>{{ status }}</td>
-            <td>{{ allowComments }}</td>
-            <td>{{ formatDate date 'DD-MM-YYYY' }}</td>
-            <td>
-                <a href="/admin/posts/edit/{{_id}}" class="btn btn-info">Edit</a>
-            </td>
-            <td>
-                <form action="/admin/posts/{{id}}?_method=DELETE" method="POST">
-                    <button type="submit" class="btn btn-danger" return="confirm('Are you sure?')">Delete</button>
-                </form>
-            </td>
-        </tr>
+            {{#each this}}
+            <tr>
+                <td>
+                    <img src="/uploads/{{file}}" alt="{{title}}" class="img-responsive" width="50px">
+                </td>
+                <td>{{ title }}</td>
+                <td>{{ category.name }}</td>
+                <td>{{ status }}</td>
+                <td>{{ allowComments }}</td>
+                <td>{{ formatDate date 'DD-MM-YYYY' }}</td>
+                <td>
+                    <a href="/admin/posts/edit/{{_id}}" class="btn btn-info">Edit</a>
+                </td>
+                <td>
+                    <form action="/admin/posts/{{id}}?_method=DELETE" method="POST">
+                        <button type="submit" class="btn btn-danger" return="confirm('Are you sure?')">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {{/each}}
         {{/each}}
     </tbody>
 </table>
